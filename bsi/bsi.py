@@ -49,9 +49,6 @@ class BSICalculator:
         return signals
 
     def handle_signals(self, signals):
-        """
-        Implement your custom logic to handle the generated signals.
-        """
         for signal in signals:
             if signal == 1:
                 logging.info("Generating long signal")
