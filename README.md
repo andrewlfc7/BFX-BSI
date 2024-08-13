@@ -17,7 +17,7 @@ Contains a class that manages WebSocket connections to multiple exchanges for a 
 
 ## client/get.py
 
-Contains a class for accessing public market data from a specified cryptocurrency symbol. This class uses asynchronous HTTP requests to fetch various types of market information, such as trade history, order book data, funding rates, and historical candle data
+Contains a class for accessing public market data from a specified cryptocurrency symbol. This class uses asynchronous HTTP requests to fetch various types of market information, such as trade history, order book data, funding rates, and kline data
 
 
 DISCLAIMER: Nothing in this repository constitutes financial advice (and therefore, please use at your own risk). It is tailored primarily for learning purposes, and is highly unlikely you will make profits trading this strategy. I will not accept liability for any loss or damage including, without limitation to, any loss of profit which may arise directly or indirectly from use of or reliance on this software.
