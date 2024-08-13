@@ -7,6 +7,7 @@ import asyncio
 
 
 
+
 class TradingAlgorithm:
     def __init__(self, coin_base="BTC", warmup_period=100, api_key=None, secret_key=None, base_url=None):
         self.coin_base = coin_base
@@ -21,7 +22,8 @@ class TradingAlgorithm:
         self.fills = []
         self.positions = []
         self.current_position_size = 0
-
+        self.last_trade_time = None
+        self.trade_cooldown = 60  # 60 seconds cooldown before next trade
 
     async def run(self):
         """
@@ -58,14 +60,26 @@ class TradingAlgorithm:
         signals = self.bsi_calculator.generate_signals(self.bsi_calculator.compute_BSI(self.bsi_calculator.trade_buffer))
         for signal in signals:
             if signal == 1 and self.current_position != 1:
-                await self.place_long_order()
-                self.current_position = 1
+                if self.last_trade_time is None or (self.last_trade_time + self.trade_cooldown) < self.current_time():
+                    await self.place_long_order()
+                    self.current_position = 1
+                    self.last_trade_time = self.current_time()
             elif signal == -1 and self.current_position != -1:
-                await self.place_short_order()
-                self.current_position = -1
+                if self.last_trade_time is None or (self.last_trade_time + self.trade_cooldown) < self.current_time():
+                    await self.place_short_order()
+                    self.current_position = -1
+                    self.last_trade_time = self.current_time()
             elif signal == 0 and self.current_position != 0:
-                await self.close_position()
-                self.current_position = 0
+                if self.last_trade_time is None or (self.last_trade_time + self.trade_cooldown) < self.current_time():
+                    await self.close_position()
+                    self.current_position = 0
+                    self.last_trade_time = self.current_time()
+
+    def current_time(self):
+        """
+        Returns the current time.
+        """
+        return asyncio.get_event_loop().time()
 
     async def place_long_order(self):
         """
@@ -122,8 +136,6 @@ class TradingAlgorithm:
             logging.info(f"Closed position: {order_response}")
         except Exception as e:
             logging.error(f"Error closing position: {e}")
-
-
 
     async def fetch_market_data(self):
         """

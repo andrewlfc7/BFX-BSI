@@ -23,7 +23,7 @@ class BSICalculator:
             self.handle_signals(signals)
 
     # current kappa for the bot kappa=0.00012
-    def compute_BSI(self, trades, kappa=0.008):
+    def compute_BSI(self, trades, kappa=0.08):
         decay = np.exp(-kappa)
         BSI_values = []
         for trade in trades:
