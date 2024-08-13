@@ -10,41 +10,17 @@ from numpyro.infer import MCMC, NUTS
 import time
 from jax import lax
 
-# Database connection
-db_host = ''
-db_port = 5432
-db_name = ''
-db_user = ''
-db_password = ''
+"""Can get trades data from : https://public.bybit.com/trading/ 
+So the optimizer is set up using the trades data with 
+simulated prices to find the optimal kappa(decay) 
+based on the various holding periods of interest.
 
-try:
-    conn = psycopg2.connect(
-        host=db_host,
-        port=db_port,
-        dbname=db_name,
-        user=db_user,
-        password=db_password,
-        sslmode='require'
-    )
 
-    cursor = conn.cursor()
-    query = """
-    SELECT * from trades_perps where symbol = 'BTCUSDT';
-    """
-    cursor.execute(query)
-    data = cursor.fetchall()
-    columns = [desc[0] for desc in cursor.description]
-    df = pd.DataFrame(data, columns=columns)
+The idea around using simulated prices is that if historical prices were used, 
+the optimal kappa (decay parameter) might be biased towards that specific market reality. 
+By using simulated prices instead,the optimizer can find the optimal kappa values based on a random universe of price movements with characteristics and properties similar to crypto coins.
+"""
 
-    cursor.close()
-    conn.close()
-
-except Exception as e:
-    print(f"Error connecting to the database: {e}")
-
-if df.empty:
-    print("No data fetched from the database.")
-    exit()
 
 trade_df = df.copy()
 
@@ -69,7 +45,7 @@ lambda_jump = 0.2
 mu_j = 0
 sigma_j = 1
 
-np.random.seed(503)  # Set seed for reproducibility
+np.random.seed(503)
 
 def generate_ar1_with_jumps(nsim, t, phi, lambda_jump, mu_j, sigma_j):
     epsilon = np.zeros((t, nsim))
