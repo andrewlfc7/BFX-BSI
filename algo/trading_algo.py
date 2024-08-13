@@ -144,7 +144,7 @@ class TradingAlgorithm:
                         logging.error(f"Error fetching market data: {market_data['error']}")
             except Exception as e:
                 logging.error(f"Error fetching market data: {e}")
-            await asyncio.sleep(8)  # Fetch market data every minute
+            await asyncio.sleep(8)
 
     async def fetch_positions(self):
         """
@@ -164,7 +164,7 @@ class TradingAlgorithm:
                     logging.error(f"Error fetching positions: {response['error']}")
             except Exception as e:
                 logging.error(f"Error fetching positions: {e}")
-            await asyncio.sleep(10)  # Fetch positions every minute
+            await asyncio.sleep(10)
 
     async def fetch_fills(self):
         """
@@ -182,4 +182,4 @@ class TradingAlgorithm:
                     logging.error(f"Error fetching fills: {response['error']}")
             except Exception as e:
                 logging.error(f"Error fetching fills: {e}")
-            await asyncio.sleep(4)  # Fetch fills every minute
+            await asyncio.sleep(4)
