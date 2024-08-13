@@ -8,6 +8,16 @@ Contains a class responsible for trading operations, including starting the WebS
 
 ## bsi/bsi.py
 
+Contains a class dedicated to calculating the Buy/Sell Imbalance (BSI) for given coin trade data. The class initializes by setting up core parameters, including the coin base and a warmup period, and manages a buffer for incoming trade data. Once enough data is gathered during the warmup period, the class processes it to calculate the BSI, which is then used to generate trading signals. More information and the formula behind BSI can be found in the articles listed at the end.
+
+## ws_feeds/ws.py
+
+Contains a class that manages WebSocket connections to multiple exchanges for a specified coin, given its based e.g BTC. It subscribes to real-time trade feeds from various exchanges. The class efficiently handles and parses incoming trade data and passes it to a Buy/Sell Imbalance (BSI) calculator for generating trading signals.
+
+
+## client/get.py
+
+Contains a class for accessing public market data from a specified cryptocurrency symbol. This class uses asynchronous HTTP requests to fetch various types of market information, such as trade history, order book data, funding rates, and historical candle data
 
 
 DISCLAIMER: Nothing in this repository constitutes financial advice (and therefore, please use at your own risk). It is tailored primarily for learning purposes, and is highly unlikely you will make profits trading this strategy. I will not accept liability for any loss or damage including, without limitation to, any loss of profit which may arise directly or indirectly from use of or reliance on this software.

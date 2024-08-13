@@ -12,13 +12,11 @@ class BSICalculator:
     async def process_data(self, exchange, processed_data):
         logging.info(f"Processed data from {exchange}: {processed_data}")
 
-        # Buffer trades during the warm-up period
         if len(self.trade_buffer) < self.warmup_period:
             self.trade_buffer.append(processed_data)
             if len(self.trade_buffer) == self.warmup_period:
                 logging.info("Warm-up period complete. Starting signal generation.")
         else:
-            # After the warm-up period, process the trades
             BSI_values = self.compute_BSI([processed_data])
             signals = self.generate_signals(BSI_values)
 
