@@ -1,4 +1,3 @@
-import psycopg2
 import jax.numpy as jnp
 import jax
 import numpy as np
