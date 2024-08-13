@@ -72,7 +72,6 @@ class TradingAlgorithm:
         Places a long order on the exchange.
         """
         try:
-            # Place a market order to buy the coin
             order_response = await self.order_client.place_order(
                 market_id=f"{self.coin_base}-USD",
                 price=float(self.market_data["best_ask"]),
@@ -89,7 +88,6 @@ class TradingAlgorithm:
         Places a short order on the exchange.
         """
         try:
-            # Place a market order to short the coin
             order_response = await self.order_client.place_order(
                 market_id=f"{self.coin_base}-USD",
                 price=float(self.market_data["best_bid"]),
@@ -106,7 +104,6 @@ class TradingAlgorithm:
         Closes the current position.
         """
         try:
-            # Place a market order to close the position
             if self.current_position == 1:
                 order_response = await self.order_client.place_order(
                     market_id=f"{self.coin_base}-USD",
